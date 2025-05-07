@@ -6,9 +6,11 @@ import { CapacitorPluginTest } from "capacitor-plugin-afif";
 
 function App() {
   const [count, setCount] = useState(0);
-  const [userInfo, setUserInfo] = useState({});
+  const [userInfo, setUserInfo] = useState({ name: '', role: '', note: '' });
 
-  const notify = () => toast("isi dari sdk => " + userInfo);
+  const notify = () =>
+    toast(`Dari SDK:\nName: ${userInfo?.name}\nRole: ${userInfo?.role}\nNote: ${userInfo?.note}`);
+  
   async function run() {
     try {
       const result = await CapacitorPluginTest.getUserInfo();
@@ -23,8 +25,7 @@ function App() {
 
   useEffect(() => {
     run();
-    return () => {};
-  }, [userInfo]);
+  }, []);
 
   return (
     <>
