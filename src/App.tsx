@@ -1,18 +1,41 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import fireIcon from "./assets/fire-icon-3d.png";
 import "./App.css";
 import { ToastContainer, toast } from "react-toastify";
+import { CapacitorPluginTest } from "capacitor-plugin-afif";
 
 function App() {
   const [count, setCount] = useState(0);
+  const [userInfo, setUserInfo] = useState({});
 
-  const notify = () => toast("Showing notification!");
+  const notify = () => toast("isi dari sdk => " + userInfo);
+  async function run() {
+    try {
+      const result = await CapacitorPluginTest.getUserInfo();
+      setUserInfo(result || {});
+      console.log("Name:", result.name);
+      console.log("Role:", result.role);
+      console.log("Note:", result.note);
+    } catch (err) {
+      console.error("Error:", err);
+    }
+  }
+
+  useEffect(() => {
+    run();
+    return () => {};
+  }, [userInfo]);
 
   return (
     <>
       <div>
         <a href="https://react.dev" target="_blank">
-          <img height={400} src={fireIcon} className="logo react" alt="React logo" />
+          <img
+            height={400}
+            src={fireIcon}
+            className="logo react"
+            alt="React logo"
+          />
         </a>
       </div>
       <h1>Web Test Capacitor</h1>
